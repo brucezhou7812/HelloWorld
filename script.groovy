@@ -11,3 +11,5 @@ def testApp(){
 def alwaysSection(){
   echo 'pipeline finished'
 }
+
+return this
