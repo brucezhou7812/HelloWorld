@@ -1,5 +1,8 @@
 pipeline{
   agent any
+  parameters{
+    string(name:'VERSIONNAME',defaultValue:'the first version',description:'this is the version name')
+  }
   stages{
     stage("build"){
       steps{
@@ -26,6 +29,7 @@ pipeline{
   post{
     always{
       echo 'pipeline finished'
+      echo "version name is ${VERSIONNAME}"
     }
     failure{
       echo 'something is wrong'
