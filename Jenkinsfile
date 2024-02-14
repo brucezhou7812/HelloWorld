@@ -2,11 +2,18 @@ pipeline{
   agent any
   parameters{
     string(name:'VERSIONNAME',defaultValue:'the first version',description:'this is the version name')
+    choice(name:'VERSION',choices:['1.1.0','1.2.0','1.3.0'],description:'version')
+    booleanParam(name:'executeTest',defaultValue:true,description:'set testing execution')
   }
   stages{
+    stage("init"){
+      gv = load "script.groovy"
+    }
     stage("build"){
       steps{
-        echo 'building the application'
+        script{
+          gv.buildApp();
+        }
         nodejs('NodeJS-21.1.0'){
           sh 'yarn install'
         }
@@ -19,7 +26,9 @@ pipeline{
         }
       }
       steps{
-        echo 'testing the application'
+        script{
+          gv.testApp();
+        }
         withGradle(){
           sh './gradlew -v'
         }
@@ -28,8 +37,9 @@ pipeline{
   }
   post{
     always{
-      echo 'pipeline finished'
-      echo "version name is ${params.VERSIONNAME}"
+      script{
+        gv.alwaysSection();
+      }
     }
     failure{
       echo 'something is wrong'
