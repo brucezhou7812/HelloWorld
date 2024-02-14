@@ -10,6 +10,11 @@ pipeline{
       }
     }
     stage("test"){
+      when{
+        expression{
+          BRANCH-NAME == 'dev'
+        }
+      }
       steps{
         echo 'testing the application'
         withGradle(){
