@@ -18,4 +18,11 @@ pipeline{
       }
     }
   }
+  post{
+    always{
+      echo 'pipeline finished'
+    }
+    failure{
+      echo 'something is wrong'
+    }
 }
