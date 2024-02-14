@@ -29,7 +29,7 @@ pipeline{
   post{
     always{
       echo 'pipeline finished'
-      echo "version name is ${VERSIONNAME}"
+      echo "version name is ${params.VERSIONNAME}"
     }
     failure{
       echo 'something is wrong'
